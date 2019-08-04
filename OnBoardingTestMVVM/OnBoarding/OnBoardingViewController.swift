@@ -36,33 +36,16 @@ class OnBoardingViewController: UIViewController {
             .disposed(by: disposeBag)
         
         viewModel.output.showImageWithNameObservable
-            .subscribe(onNext: { [weak self] imageName in
-                self?.updateImageView(withName: imageName)
-            })
+            .map { UIImage(named: $0) }
+            .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
         
         viewModel.output.updateButtonWithTitleObservable
-            .subscribe(onNext: { [weak self] title in
-                self?.updateButton(withTitle: title)
-            })
+            .bind(to: continueButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
         viewModel.output.startApplicationObservable
-            .subscribe(onNext: { [weak self] in
-                self?.startApplication()
-            })
+            .subscribe(onNext: { print("Application is started") })
             .disposed(by: disposeBag)
-    }
-    
-    private func updateImageView(withName imageName: String) {
-        imageView.image = UIImage(named: imageName)
-    }
-    
-    private func updateButton(withTitle title: String) {
-        continueButton.setTitle(title, for: .normal)
-    }
-    
-    private func startApplication() {
-        print("Application is started")
     }
 }
