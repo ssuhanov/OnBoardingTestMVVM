@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 class OnBoardingViewModel {
     
@@ -21,9 +22,9 @@ class OnBoardingViewModel {
     }
     
     struct Output {
-        var showImageWithNameObservable: Observable<String>
-        var updateButtonWithTitleObservable: Observable<String>
-        var startApplicationObservable: Observable<Void>
+        var showImageWithNameDriver: Driver<String>
+        var updateButtonWithTitleDriver: Driver<String>
+        var startApplicationDriver: Driver<Void>
     }
     
     private var nextImageSubject = PublishSubject<Void>()
@@ -37,9 +38,9 @@ class OnBoardingViewModel {
     init() {
         self.input = Input(nextImageObserver: nextImageSubject.asObserver())
         
-        self.output = Output(showImageWithNameObservable: showImageWithNameSubject.asObservable(),
-                             updateButtonWithTitleObservable: updateButtonWithTitleSubject.asObservable(),
-                             startApplicationObservable: startApplicationSubject.asObservable())
+        self.output = Output(showImageWithNameDriver: showImageWithNameSubject.asDriver(onErrorJustReturn: ""),
+                             updateButtonWithTitleDriver: updateButtonWithTitleSubject.asDriver(onErrorJustReturn: ""),
+                             startApplicationDriver: startApplicationSubject.asDriver(onErrorJustReturn: ()))
         
         nextImageSubject
             .subscribe(onNext: { [weak self] in

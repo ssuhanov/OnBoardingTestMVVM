@@ -43,8 +43,8 @@ class OnBoardingViewModelTests: XCTestCase {
         instance.imageQueue = fullImageQueue
         var resultImageName: String?
         
-        instance.output.showImageWithNameObservable
-            .subscribe(onNext: { resultImageName = $0 })
+        instance.output.showImageWithNameDriver
+            .drive(onNext: { resultImageName = $0 })
             .disposed(by: disposeBag)
         
         instance.input.nextImageObserver.onNext(())
@@ -61,8 +61,8 @@ class OnBoardingViewModelTests: XCTestCase {
         instance.imageQueue = fullImageQueue
         var resultButtonTitle: String?
         
-        instance.output.updateButtonWithTitleObservable
-            .subscribe(onNext: { resultButtonTitle = $0 })
+        instance.output.updateButtonWithTitleDriver
+            .drive(onNext: { resultButtonTitle = $0 })
             .disposed(by: disposeBag)
         
         instance.input.nextImageObserver.onNext(())
@@ -73,8 +73,8 @@ class OnBoardingViewModelTests: XCTestCase {
         instance.imageQueue = lastImageQueue
         var resultButtonTitle: String?
         
-        instance.output.updateButtonWithTitleObservable
-            .subscribe(onNext: { resultButtonTitle = $0 })
+        instance.output.updateButtonWithTitleDriver
+            .drive(onNext: { resultButtonTitle = $0 })
             .disposed(by: disposeBag)
         
         instance.input.nextImageObserver.onNext(())
@@ -85,8 +85,8 @@ class OnBoardingViewModelTests: XCTestCase {
         instance.imageQueue = emptyImageQueue
         var startApplication_isCalled = false
         
-        instance.output.startApplicationObservable
-            .subscribe(onNext: { startApplication_isCalled = true })
+        instance.output.startApplicationDriver
+            .drive(onNext: { startApplication_isCalled = true })
             .disposed(by: disposeBag)
         
         instance.input.nextImageObserver.onNext(())

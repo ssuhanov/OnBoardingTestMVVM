@@ -35,17 +35,17 @@ class OnBoardingViewController: UIViewController {
             .subscribe(viewModel.input.nextImageObserver)
             .disposed(by: disposeBag)
         
-        viewModel.output.showImageWithNameObservable
+        viewModel.output.showImageWithNameDriver
             .map { UIImage(named: $0) }
-            .bind(to: imageView.rx.image)
+            .drive(imageView.rx.image)
             .disposed(by: disposeBag)
         
-        viewModel.output.updateButtonWithTitleObservable
-            .bind(to: continueButton.rx.title(for: .normal))
+        viewModel.output.updateButtonWithTitleDriver
+            .drive(continueButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
         
-        viewModel.output.startApplicationObservable
-            .subscribe(onNext: { print("Application is started") })
+        viewModel.output.startApplicationDriver
+            .drive(onNext: { print("Application is started") })
             .disposed(by: disposeBag)
     }
 }
